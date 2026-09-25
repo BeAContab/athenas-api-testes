@@ -16,6 +16,7 @@ export function LoginForm() {
 
   const [usuario, setUsuario] = useState("");
   const [senha, setSenha] = useState("");
+  const [sub, setSub] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isEnteringPrototype, setIsEnteringPrototype] = useState(false);
 
@@ -39,7 +40,7 @@ export function LoginForm() {
     event.preventDefault();
     setIsSubmitting(true);
     try {
-      await login({ mode: "real", usuario, senha, sub: "usuario" });
+      await login({ mode: "real", usuario, senha, sub });
     } finally {
       setIsSubmitting(false);
     }
@@ -57,6 +58,15 @@ export function LoginForm() {
   return (
     <div className="flex flex-col gap-6">
       <form className="flex flex-col gap-4" onSubmit={handleRealLogin}>
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="sub">Ambiente (sub)</Label>
+          <Input
+            id="sub"
+            value={sub}
+            onChange={(e) => setSub(e.target.value)}
+            placeholder="Ex.: localhost"
+          />
+        </div>
         <div className="flex flex-col gap-2">
           <Label htmlFor="usuario">Usuário</Label>
           <div className="relative">

@@ -37,9 +37,9 @@ export async function POST(request: NextRequest) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        sub: sub || "usuario",
+        sub: sub || "localhost",
       },
-      body: JSON.stringify({ usuario, senha }),
+      body: JSON.stringify({ login: usuario, password: senha }),
     });
   } catch {
     return NextResponse.json(
@@ -50,8 +50,20 @@ export async function POST(request: NextRequest) {
 
   if (!upstream.ok) {
     const detail = await upstream.text().catch(() => "");
+    // Repassa a mensagem da API (ex.: "Campos de autenticação faltando")
+    // para o usuário saber se o problema é credencial ou formato da requisição.
+    let reason = detail.slice(0, 200);
+    try {
+      const parsed = JSON.parse(detail) as { message?: string };
+      if (parsed.message) reason = parsed.message;
+    } catch {
+      // resposta não-JSON: mantém o texto bruto truncado
+    }
     return NextResponse.json(
-      { error: "Falha na autenticação com a API Athenas.", detail },
+      {
+        error: `Falha na autenticação (HTTP ${upstream.status})${reason ? `: ${reason}` : "."}`,
+        detail,
+      },
       { status: upstream.status }
     );
   }
@@ -60,7 +72,8 @@ export async function POST(request: NextRequest) {
   const token =
     (data.token as string | undefined) ??
     (data.accessToken as string | undefined) ??
-    (data.access_token as string | undefined);
+    (data.access_token as string | undefined) ??
+    ((data.data as Record<string, unknown> | undefined)?.token as string | undefined);
 
   if (!token) {
     return NextResponse.json(

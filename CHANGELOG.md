@@ -2,6 +2,16 @@
 
 Formato: `major.minor.patch` (versionamento semântico). Histórico consolidado em 2026-09-25.
 
+## [0.4.2] - 2026-09-25
+### Corrigido
+- Login real: corpo enviado como `{ login, password }` (schema real de `POST /usuarios/auth`, lido de `/swagger/swagger.json`), em vez de `usuario`/`senha`.
+### Adicionado
+- Campo "Ambiente (sub)" no login, enviado no header `sub` (padrão `localhost`).
+
+## [0.4.1] - 2026-09-25
+### Alterado
+- Login real agora exibe o status HTTP e a mensagem devolvida pela API Athenas quando a autenticação falha, em vez de um texto genérico.
+
 ## [0.4.0] - 2026-09-25
 ### Adicionado
 - Fase 3 — Produtos e Estoque: catálogo com filtros reais (`GET /ws/produtos/get`), cadastro, detalhe com composição, entradas/saídas (listagem/busca, criação completa, detalhe) e movimentações (busca por idmaster+id e registro), com sub-navegação no módulo.
