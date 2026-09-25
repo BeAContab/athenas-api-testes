@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Finance Detail - Modals</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for demo realism */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #c6c6cd; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #76777d; }
+    </style>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#f8f9ff",
+                        "error": "#ba1a1a",
+                        "secondary": "#4648d4",
+                        "surface-container": "#e5eeff",
+                        "on-secondary-fixed-variant": "#2f2ebe",
+                        "on-error": "#ffffff",
+                        "outline": "#76777d",
+                        "surface-bright": "#f8f9ff",
+                        "outline-variant": "#c6c6cd",
+                        "on-tertiary": "#ffffff",
+                        "inverse-surface": "#213145",
+                        "primary": "#000000",
+                        "on-surface-variant": "#45464d",
+                        "on-primary-container": "#7c839b",
+                        "surface-dim": "#cbdbf5",
+                        "inverse-on-surface": "#eaf1ff",
+                        "error-container": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "tertiary-container": "#271901",
+                        "on-background": "#0b1c30",
+                        "secondary-container": "#6063ee",
+                        "tertiary-fixed-dim": "#dec29a",
+                        "on-secondary-fixed": "#07006c",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed-variant": "#574425",
+                        "primary-container": "#131b2e",
+                        "on-tertiary-container": "#98805d",
+                        "primary-fixed": "#dae2fd",
+                        "secondary-fixed-dim": "#c0c1ff",
+                        "surface-container-low": "#eff4ff",
+                        "inverse-primary": "#bec6e0",
+                        "surface-container-high": "#dce9ff",
+                        "surface-variant": "#d3e4fe",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "surface": "#f8f9ff",
+                        "secondary-fixed": "#e1e0ff",
+                        "on-primary-fixed": "#131b2e",
+                        "primary-fixed-dim": "#bec6e0",
+                        "tertiary-fixed": "#fcdeb5",
+                        "on-tertiary-fixed": "#271901",
+                        "on-secondary-container": "#fffbff",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-tint": "#565e74",
+                        "tertiary": "#000000",
+                        "on-surface": "#0b1c30",
+                        "on-error-container": "#93000a",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1440px",
+                        "row-padding": "12px",
+                        "gutter": "24px",
+                        "sidebar-width": "240px",
+                        "stack-gap": "16px",
+                        "topbar-height": "56px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Geist"],
+                        "label-md": ["Geist"],
+                        "headline-sm": ["Geist"],
+                        "body-md": ["Geist"],
+                        "headline-md": ["Geist"],
+                        "code": ["jetbrainsMono"],
+                        "body-sm": ["Geist"],
+                        "body-lg": ["Geist"],
+                        "label-sm": ["Geist"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "headline-sm": ["18px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "code": ["13px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["11px", { "lineHeight": "14px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background antialiased flex h-screen overflow-hidden font-body-md">
+<!-- Shared Component: SideNavBar -->
+<nav class="fixed left-0 top-0 h-screen w-[240px] bg-surface-container-lowest border-r border-outline-variant flex flex-col z-20">
+<!-- Header -->
+<div class="h-topbar-height px-4 flex items-center border-b border-outline-variant/50">
+<div class="w-8 h-8 rounded bg-primary text-on-primary flex items-center justify-center font-headline-sm mr-3">A</div>
+<div>
+<h1 class="font-headline-sm text-headline-sm font-bold text-on-surface">Athenas Dashboard</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant truncate">Enterprise Resource Planning</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<div class="flex-1 overflow-y-auto py-4 space-y-1 px-3">
+<a class="flex items-center gap-3 px-3 py-2 rounded-md text-on-surface-variant hover:bg-surface-container-low transition-colors cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-md text-on-surface-variant hover:bg-surface-container-low transition-colors cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined text-[20px]">inventory_2</span>
+<span class="font-body-md text-body-md">Inventory</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-md text-on-surface-variant hover:bg-surface-container-low transition-colors cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined text-[20px]">precision_manufacturing</span>
+<span class="font-body-md text-body-md">Operations</span>
+</a>
+<!-- Active State: Finances -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-md bg-surface-container-high text-on-secondary-fixed-variant border-l-4 border-secondary cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+<span class="font-body-md text-body-md font-medium">Finances</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-md text-on-surface-variant hover:bg-surface-container-low transition-colors cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined text-[20px]">monitoring</span>
+<span class="font-body-md text-body-md">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-md text-on-surface-variant hover:bg-surface-container-low transition-colors cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</div>
+<!-- CTA & Footer -->
+<div class="p-4 border-t border-outline-variant/50 space-y-4">
+<button class="w-full flex items-center justify-center gap-2 bg-primary text-on-primary h-10 rounded-md font-label-md hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                New Report
+            </button>
+<div class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-low rounded-md transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">help</span>
+<span class="font-body-sm text-body-sm">Support</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-low rounded-md transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">logout</span>
+<span class="font-body-sm text-body-sm">Sign Out</span>
+</a>
+</div>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-1 flex flex-col ml-[240px] relative">
+<!-- Shared Component: TopNavBar -->
+<header class="h-topbar-height bg-surface-bright border-b border-outline-variant flex justify-between items-center px-6 z-20">
+<!-- Breadcrumb Mock -->
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
+<span>Finances</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-primary font-medium">Contrato #8829-B</span>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-4">
+<!-- Toggle Prototype/Real -->
+<div class="flex bg-surface-container-low rounded-md p-0.5 border border-outline-variant/50">
+<button class="px-3 py-1 font-label-sm text-label-sm rounded bg-surface-container-lowest shadow-sm text-primary">Real</button>
+<button class="px-3 py-1 font-label-sm text-label-sm rounded text-on-surface-variant hover:text-primary">Prototype</button>
+</div>
+<div class="w-px h-6 bg-outline-variant/50"></div>
+<button class="text-on-surface-variant hover:bg-surface-container-low p-1.5 rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-container-low p-1.5 rounded-full transition-colors">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Mock Background Screen (Dimmed out) -->
+<main class="flex-1 overflow-auto bg-background p-6">
+<div class="max-w-container-max mx-auto space-y-6 blur-[2px] opacity-60 pointer-events-none select-none transition-all duration-300">
+<!-- Detail Header -->
+<div class="flex justify-between items-start">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary">Contrato #8829-B</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Acme Corporation LTDA • Iniciado em 12/04/2023</p>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-2 border border-outline-variant rounded-md font-label-md">Exportar</button>
+<button class="px-4 py-2 bg-primary text-on-primary rounded-md font-label-md">Nova Parcela</button>
+</div>
+</div>
+<!-- Stats Grid -->
+<div class="grid grid-cols-4 gap-4">
+<div class="bg-surface-container-lowest p-4 rounded-lg border border-outline-variant shadow-sm">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Valor Total</p>
+<p class="font-headline-md text-headline-md mt-2 text-primary font-code">R$ 145.000,00</p>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-lg border border-outline-variant shadow-sm">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Pago</p>
+<p class="font-headline-md text-headline-md mt-2 text-primary font-code">R$ 80.000,00</p>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-lg border border-outline-variant shadow-sm">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Em Aberto</p>
+<p class="font-headline-md text-headline-md mt-2 text-primary font-code">R$ 65.000,00</p>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-lg border border-outline-variant shadow-sm">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Status</p>
+<div class="mt-2 inline-flex items-center px-2.5 py-1 bg-surface-container text-on-surface font-label-sm rounded-full">
+                            Em Andamento
+                        </div>
+</div>
+</div>
+<!-- Mock Table -->
+<div class="bg-surface-container-lowest rounded-lg border border-outline-variant shadow-sm overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low border-b border-outline-variant font-label-sm text-label-sm text-on-surface-variant">
+<tr>
+<th class="p-3 font-medium">ID</th>
+<th class="p-3 font-medium">Vencimento</th>
+<th class="p-3 font-medium">Valor</th>
+<th class="p-3 font-medium">Situação</th>
+<th class="p-3 font-medium">Ações</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md divide-y divide-outline-variant/50">
+<tr>
+<td class="p-3 font-code text-primary">PAR-001</td>
+<td class="p-3">15/05/2023</td>
+<td class="p-3 font-code">R$ 40.000,00</td>
+<td class="p-3"><span class="px-2 py-1 bg-surface-dim text-primary rounded text-[11px] font-medium">Liquidado</span></td>
+<td class="p-3"><span class="material-symbols-outlined text-outline-variant">more_horiz</span></td>
+</tr>
+<tr class="bg-surface">
+<td class="p-3 font-code text-primary">PAR-002</td>
+<td class="p-3">15/06/2023</td>
+<td class="p-3 font-code">R$ 40.000,00</td>
+<td class="p-3"><span class="px-2 py-1 bg-surface-dim text-primary rounded text-[11px] font-medium">Liquidado</span></td>
+<td class="p-3"><span class="material-symbols-outlined text-outline-variant">more_horiz</span></td>
+</tr>
+<tr>
+<td class="p-3 font-code text-primary">PAR-003</td>
+<td class="p-3">15/07/2023</td>
+<td class="p-3 font-code">R$ 65.000,00</td>
+<td class="p-3"><span class="px-2 py-1 bg-surface-container-high text-primary rounded text-[11px] font-medium">Aberto</span></td>
+<td class="p-3"><span class="material-symbols-outlined text-outline-variant">more_horiz</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</main>
+<!-- Overlay / Backdrop -->
+<div class="absolute inset-0 bg-primary/20 backdrop-blur-[2px] z-30"></div>
+<!-- Modals Container (Flex box to show them side-by-side/stacked for demo) -->
+<div class="absolute inset-0 z-40 overflow-y-auto p-8 flex flex-row flex-wrap items-start justify-center gap-8">
+<!-- Modal 1: Editar parcela -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg shadow-[0px_4px_16px_rgba(0,0,0,0.1)] w-full max-w-[400px] flex flex-col shrink-0 animate-[fade-in_0.2s_ease-out]">
+<!-- Header -->
+<div class="p-6 pb-4">
+<h3 class="font-headline-sm text-headline-sm text-primary">Editar parcela</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1.5">Atualize os valores da parcela selecionada.</p>
+</div>
+<!-- Body -->
+<div class="px-6 py-2 space-y-4">
+<div class="space-y-1.5">
+<label class="block font-label-sm text-label-sm text-on-surface font-medium">Valor</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 font-code text-on-surface-variant text-sm">R$</span>
+<input class="w-full h-10 pl-8 pr-3 rounded-md border border-outline-variant bg-transparent font-code text-body-md text-primary focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:border-secondary transition-all" type="text" value="65.000,00"/>
+</div>
+</div>
+<div class="space-y-1.5">
+<label class="block font-label-sm text-label-sm text-on-surface font-medium">Vencimento</label>
+<div class="relative">
+<input class="w-full h-10 pl-3 pr-10 rounded-md border border-outline-variant bg-transparent font-body-md text-primary focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:border-secondary transition-all" type="date" value="2023-07-15"/>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<div class="p-6 pt-6 flex items-center justify-end gap-3 mt-auto border-t border-outline-variant/30">
+<button class="h-9 px-4 rounded-md font-label-md text-label-md text-primary border border-outline-variant hover:bg-surface-container-low transition-colors">Cancelar</button>
+<button class="h-9 px-4 rounded-md font-label-md text-label-md bg-primary text-on-primary hover:opacity-90 transition-opacity">Salvar</button>
+</div>
+</div>
+<!-- Modal 2: Alterar situação -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg shadow-[0px_4px_16px_rgba(0,0,0,0.1)] w-full max-w-[360px] flex flex-col shrink-0 animate-[fade-in_0.3s_ease-out]">
+<!-- Header -->
+<div class="p-6 pb-4">
+<h3 class="font-headline-sm text-headline-sm text-primary">Alterar situação</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1.5">Modifique o status atual da parcela.</p>
+</div>
+<!-- Body -->
+<div class="px-6 py-2 space-y-4">
+<div class="space-y-1.5">
+<label class="block font-label-sm text-label-sm text-on-surface font-medium">Situação</label>
+<!-- Custom Select Mockup -->
+<div class="relative w-full">
+<button class="w-full flex items-center justify-between h-10 px-3 rounded-md border border-outline-variant bg-transparent text-left font-body-md text-primary hover:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:border-secondary transition-all">
+<span>Aberto</span>
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">unfold_more</span>
+</button>
+<!-- Dropdown Menu (Hidden normally, shown for design representation) -->
+<div class="absolute top-full left-0 mt-1 w-full bg-surface-container-lowest border border-outline-variant rounded-md shadow-lg py-1 z-10 hidden">
+<button class="w-full text-left px-3 py-2 font-body-md text-primary bg-surface-container-low flex items-center justify-between">
+                                    Aberto
+                                    <span class="material-symbols-outlined text-[16px] text-secondary">check</span>
+</button>
+<button class="w-full text-left px-3 py-2 font-body-md text-primary hover:bg-surface-container-low transition-colors">Liquidado</button>
+<button class="w-full text-left px-3 py-2 font-body-md text-primary hover:bg-surface-container-low transition-colors">Estornado</button>
+<button class="w-full text-left px-3 py-2 font-body-md text-error hover:bg-error-container/30 transition-colors">Cancelado</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<div class="p-6 pt-8 flex items-center justify-end gap-3 mt-auto">
+<button class="h-9 px-4 rounded-md font-label-md text-label-md text-primary border border-outline-variant hover:bg-surface-container-low transition-colors">Cancelar</button>
+<button class="h-9 px-4 rounded-md font-label-md text-label-md bg-primary text-on-primary hover:opacity-90 transition-opacity">Salvar</button>
+</div>
+</div>
+<!-- Modal 3: Custos da parcela -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg shadow-[0px_4px_16px_rgba(0,0,0,0.1)] w-full max-w-[480px] flex flex-col shrink-0 animate-[fade-in_0.4s_ease-out]">
+<!-- Header -->
+<div class="p-6 pb-4">
+<h3 class="font-headline-sm text-headline-sm text-primary">Custos da parcela</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1.5">Gerencie os custos adicionais associados.</p>
+</div>
+<!-- Body -->
+<div class="px-6 py-2">
+<!-- Search Row -->
+<div class="flex items-end gap-3">
+<div class="flex-1 space-y-1.5">
+<label class="block font-label-sm text-label-sm text-on-surface font-medium">ID do custo</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-on-surface-variant">search</span>
+<input class="w-full h-10 pl-9 pr-3 rounded-md border border-outline-variant bg-transparent font-code text-body-md text-primary placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:border-secondary transition-all" placeholder="Ex: CST-0992" type="text"/>
+</div>
+</div>
+<button class="h-10 px-4 rounded-md font-label-md text-label-md text-primary border border-outline-variant hover:bg-surface-container-low transition-colors whitespace-nowrap">Buscar</button>
+</div>
+<!-- Separator -->
+<div class="relative py-6">
+<div aria-hidden="true" class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-outline-variant/40"></div>
+</div>
+<div class="relative flex justify-center">
+<span class="bg-surface-container-lowest px-2 text-[10px] font-semibold uppercase tracking-wider text-on-surface-variant">Ou adicione novo</span>
+</div>
+</div>
+<!-- Form Fields -->
+<div class="space-y-4">
+<div class="space-y-1.5">
+<label class="block font-label-sm text-label-sm text-on-surface font-medium">Descrição</label>
+<input class="w-full h-10 px-3 rounded-md border border-outline-variant bg-transparent font-body-md text-primary placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:border-secondary transition-all" placeholder="Motivo do custo..." type="text"/>
+</div>
+<div class="space-y-1.5">
+<label class="block font-label-sm text-label-sm text-on-surface font-medium">Valor</label>
+<div class="relative w-1/2">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 font-code text-on-surface-variant text-sm">R$</span>
+<input class="w-full h-10 pl-8 pr-3 rounded-md border border-outline-variant bg-transparent font-code text-body-md text-primary placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:border-secondary transition-all" placeholder="0,00" type="text"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<div class="p-6 pt-6 mt-4 flex items-center justify-between border-t border-outline-variant/30 bg-surface-bright/50">
+<button class="h-9 px-3 rounded-md font-label-md text-label-md text-error hover:bg-error-container/30 transition-colors flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">delete</span>
+                        Excluir
+                    </button>
+<div class="flex gap-3">
+<button class="h-9 px-4 rounded-md font-label-md text-label-md text-primary border border-outline-variant hover:bg-surface-container-low transition-colors bg-surface-container-lowest">Fechar</button>
+<button class="h-9 px-4 rounded-md font-label-md text-label-md bg-primary text-on-primary hover:opacity-90 transition-opacity">Criar</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Basic animation styles for realism -->
+<style>
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(10px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+    </style>
+</body></html>
